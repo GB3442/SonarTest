@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ClientApp</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.tdit.ClientApp</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientApp (com.tdit.ClientApp)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientApp</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.tdit.ClientApp;
+&nbsp;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import com.tdit.ExceptionHandeling.ProductNotFoundException;
+&nbsp;import com.tdit.ExceptionHandeling.UserNotFoundException;
+&nbsp;import com.tdit.SellerRepository.ProductRepo;
+&nbsp;import com.tdit.SellerRepository.SellerRepo;
+&nbsp;import com.tdit.SellerRepository.UserRepo;
+&nbsp;import com.tdit.model.Product;
+&nbsp;import com.tdit.model.Seller;
+&nbsp;import com.tdit.model.Userdata;
+&nbsp;import com.tdit.service.LocationAvailabilityService;
+&nbsp;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;
+&nbsp;@Component
+<b class="nc">&nbsp;@Slf4j</b>
+<b class="nc">&nbsp;public class ClientApp {</b>
+&nbsp;	@Autowired
+&nbsp;	private LocationAvailabilityService service;
+&nbsp;
+&nbsp;	@Autowired
+&nbsp;	private UserRepo uRepo;
+&nbsp;	@Autowired
+&nbsp;	private SellerRepo sRepo;
+&nbsp;	@Autowired
+&nbsp;	private ProductRepo pRepo;
+&nbsp;
+&nbsp;	public static final String SELLERURL = &quot;&quot;;
+&nbsp;	public static final String USERURL = &quot;&quot;;
+&nbsp;	public static final String PRODURL = &quot;&quot;;
+&nbsp;	String messageString;
+<b class="nc">&nbsp;	Seller seller = null;</b>
+<b class="nc">&nbsp;	Userdata user = null;</b>
+<b class="nc">&nbsp;	Product product = null;</b>
+&nbsp;
+&nbsp;	public String processRequest(Integer uid, Integer pid) throws Exception {
+<b class="nc">&nbsp;		log.debug(&quot;Process request is executed..&quot;);</b>
+&nbsp;
+&nbsp;		// here user and product both are came from UI or other service...
+&nbsp;		// calling service class method
+<b class="nc">&nbsp;		Userdata user=uRepo.findById(uid).orElseThrow(()-&gt;new UserNotFoundException(&quot;User not available for given id&quot;));</b>
+<b class="nc">&nbsp;		Product product=pRepo.findById(pid).orElseThrow(()-&gt;new ProductNotFoundException(&quot;Product is not available for given id&quot;));</b>
+&nbsp;		
+<b class="nc">&nbsp;		boolean status = service.checkAvailabilty(user, product);</b>
+<b class="nc">&nbsp;		log.info(&quot;incoming delivery status is&quot;, status);</b>
+<b class="nc">&nbsp;		if (status) {</b>
+<b class="nc">&nbsp;			messageString = &quot;Location is Available for Delivery..&quot;;</b>
+<b class="nc">&nbsp;			log.info(messageString);</b>
+&nbsp;		} else {
+<b class="nc">&nbsp;			messageString = &quot;Product can&#39;t be delivered to this Location..&quot;;</b>
+<b class="nc">&nbsp;			log.info(messageString);</b>
+&nbsp;		}
+<b class="nc">&nbsp;		return messageString;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public String processRequest(String pincode) throws Exception {
+<b class="nc">&nbsp;		boolean status = service.checkAvailabilty(pincode);</b>
+<b class="nc">&nbsp;		log.info(&quot;incoming delivery status is ${status}&quot;);</b>
+<b class="nc">&nbsp;		if (status) {</b>
+<b class="nc">&nbsp;			messageString = &quot;Location is Available for Delivery..&quot;;</b>
+<b class="nc">&nbsp;			log.info(messageString);</b>
+&nbsp;		} else {
+<b class="nc">&nbsp;			messageString = &quot;Product can&#39;t be delivered to this Location..&quot;;</b>
+<b class="nc">&nbsp;			log.info(messageString);</b>
+&nbsp;		}
+<b class="nc">&nbsp;		return messageString;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-03-04 16:20</div>
+</div>
+</body>
+</html>

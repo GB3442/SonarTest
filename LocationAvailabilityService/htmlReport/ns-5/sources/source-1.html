@@ -1,0 +1,146 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LocationAvailabilityService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.tdit.service</a>
+</div>
+
+<h1>Coverage Summary for Class: LocationAvailabilityService (com.tdit.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LocationAvailabilityService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (4/8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.tdit.service;
+&nbsp;
+&nbsp;import java.util.Iterator;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import com.tdit.SellerRepository.SellerRepo;
+&nbsp;import com.tdit.model.Location;
+&nbsp;import com.tdit.model.Product;
+&nbsp;import com.tdit.model.Seller;
+&nbsp;import com.tdit.model.Userdata;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class LocationAvailabilityService {</b>
+&nbsp;	private boolean status;
+&nbsp;	@Autowired
+&nbsp;	SellerRepo sellerRepo;
+&nbsp;
+&nbsp;	// check availability based on user and product data
+&nbsp;	public boolean checkAvailabilty(Userdata user, Product product) throws Exception {
+<b class="nc">&nbsp;		List&lt;Seller&gt; sellerList = sellerRepo.findAll();</b>
+<b class="nc">&nbsp;		return sellerList.stream().filter(seller -&gt; seller.getProductList().contains(product)) </b>
+<b class="nc">&nbsp;				.flatMap(seller -&gt; seller.getAvailableLocations().stream()) </b>
+<b class="nc">&nbsp;				.map(Location::getPincode).anyMatch(pin -&gt; pin.equalsIgnoreCase(user.getPincode()));</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	// check availabiltiy based on pincode
+&nbsp;	public boolean checkAvailabilty(String pincode) {
+&nbsp;
+<b class="fc">&nbsp;		List&lt;Set&lt;Location&gt;&gt; locList = sellerRepo.findAll().stream().map(i -&gt; i.getAvailableLocations()).toList();</b>
+&nbsp;
+<b class="fc">&nbsp;		return sellerRepo.findAll().stream().flatMap(i -&gt; i.getAvailableLocations().stream())</b>
+<b class="fc">&nbsp;				.anyMatch(loc -&gt; loc.getPincode().equalsIgnoreCase(pincode));</b>
+&nbsp;
+&nbsp;	}
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-03-04 16:20</div>
+</div>
+</body>
+</html>
